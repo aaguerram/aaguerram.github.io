@@ -17,6 +17,10 @@ assets/
   Angel_Guerra_CV_ES.pdf
 ```
 
+Projects live in `assets/script.js` (`CONTENT.en.projects` / `CONTENT.es.projects`), ordered
+AI-first, then the most recent public repositories, then private work. Set `ai: true` on an item to
+get the "Agentic AI" badge; keep both languages in sync.
+
 To preview locally: open `index.html` directly in a browser, or serve the folder
 (`npx serve .` / `python -m http.server`) since some browsers restrict `fetch`/module
 behavior on `file://` — this site doesn't use either, so opening the file directly works too.

@@ -14,6 +14,7 @@
         experience: "10+ years in banking & fintech platforms",
         ctaPrimary: "See featured systems",
         ctaCv: "Download CV",
+        ctaGithub: "GitHub",
         cvFile: "assets/Angel_Guerra_CV_EN.pdf",
       },
       signals: {
@@ -24,7 +25,7 @@
           {
             title: "Agentic AI Engineering",
             body: "LLM agents that call tools, keep memory, and know when to stop — not chatbots. LangGraph orchestration, RAG over vector stores, MCP integrations, human-in-the-loop guardrails.",
-            proof: "Proof → Luna, an omnichannel sales agent on Bedrock AgentCore",
+            proof: "Proof → a verifiable LangGraph pipeline that maps user stories to BIAN, and Luna, an omnichannel sales agent on Bedrock AgentCore",
           },
           {
             title: "Solution Architecture for Regulated Industries",
@@ -66,12 +67,41 @@
       projects: {
         heading: "Selected systems",
         kicker:
-          "Three systems, three different constraints: an agent that has to sound human, a pipeline that has to disappear after it runs, and infrastructure that has to survive a disaster with one command.",
+          "AI first: two agentic systems where the LLM is boxed in by deterministic code. Then my latest public repositories, and two private engagements that can't be linked.",
+        aiBadge: "Agentic AI",
         items: [
+          {
+            name: "BIAN Contract Mapper — Verifiable LLM Pipeline",
+            status: "Public repository",
+            statusClass: "public",
+            ai: true,
+            meta: "Python · LangGraph · Sep 2026",
+            summary:
+              "Maps a batch of user stories to the BIAN Service Domains that should own them — with contractual role, confidence, official operations and a written justification — so API contracts start from the banking standard instead of a guess.",
+            tags: ["LangGraph", "LangChain", "Multi-LLM failover", "Groq · Gemini · OpenRouter", "RAG (lexical / vector)", "LangSmith", "Hexagonal architecture", "Python"],
+            notes: [
+              {
+                label: "Isolated evaluation",
+                body: "A LangGraph map-reduce over stories, with a 10-step subgraph per story (6 LLM nodes, 4 deterministic). Every candidate Service Domain gets its own LLM call against a closed evidence pack — no cross-contamination between candidates.",
+              },
+              {
+                label: "Adversarial, but one-way",
+                body: "An independent adversarial reviewer re-checks ownership; its findings can only downgrade a Service Domain, never promote one. The model can only answer with names from the 341-domain catalog.",
+              },
+              {
+                label: "Never a false “no”",
+                body: "Evidence is cache-first from BIAN Release 14. If the network fails, the decision is stored as BIAN_EVIDENCE_UNAVAILABLE — not a silent “doesn't apply.”",
+              },
+            ],
+            link: "https://github.com/aaguerram/generacion_contrato_bian",
+            linkLabel: "View on GitHub",
+          },
           {
             name: "Luna — Omnichannel Sales Agent",
             status: "Public repository",
             statusClass: "public",
+            ai: true,
+            meta: "Python · Bedrock AgentCore · Jul 2026",
             summary:
               "An agentic assistant that answers skincare sales questions inside a live Telegram ↔ Amazon Connect contact center, then hands off to a human advisor the moment it's out of its depth.",
             tags: ["LangGraph", "Amazon Bedrock AgentCore", "AWS Lambda", "Amazon Connect", "DynamoDB", "RAG / Firestore", "Python"],
@@ -86,6 +116,69 @@
               },
             ],
             link: "https://github.com/aaguerram/omnicanal-demo-v1",
+            linkLabel: "View on GitHub",
+          },
+          {
+            name: "Cross-Realm M2M Identity for Banking APIs",
+            status: "Public repository",
+            statusClass: "public",
+            meta: "TypeScript · Keycloak · WSO2 · Sep 2026",
+            summary:
+              "A test bench for machine-to-machine auth across Keycloak realms behind WSO2 API Manager: a channel app holds a single secret in its own realm and still consumes BIAN / ISO 20022 APIs whose owning realms decide what it may do.",
+            tags: ["Keycloak 26", "RFC 7523 client assertions", "WSO2 API Manager", "Next.js", "TypeScript", "OpenAPI 3.1", "Docker Compose"],
+            notes: [
+              {
+                label: "Authentication ≠ authorization",
+                body: "The channel realm says who you are, the API-owner realm says what you may do, and the gateway enforces it. Each WSO2 product only accepts tokens from its own realm.",
+              },
+              {
+                label: "Tested to fail",
+                body: "Scripted tests prove the negatives: replayed assertions, multi-audience tokens, direct cross-realm Token Exchange and channel tokens presented at the gateway are all rejected.",
+              },
+            ],
+            link: "https://github.com/aaguerram/keycloak-cross-realm-token-exchange",
+            linkLabel: "View on GitHub",
+          },
+          {
+            name: "Effort Estimation Calculator",
+            status: "Public repository",
+            statusClass: "public",
+            meta: "TypeScript · React · PostgREST · Sep 2026",
+            summary:
+              "Load a project's scope — components, features, integrations and drivers — and get a P50/P80/P90 effort band, an optimal team plan, a duration and the model's warnings. Coefficients are calibrated against closed projects, not invented.",
+            tags: ["React 19", "TypeScript", "Feature-Sliced Design", "IBM Carbon", "PostgREST", "PostgreSQL", "Vitest", "Playwright"],
+            notes: [
+              {
+                label: "No backend to maintain",
+                body: "PostgREST generates the API straight from the Postgres schema; the rules live in a deterministic, pure model layer covered by 242 unit tests.",
+              },
+              {
+                label: "Calibration, not vibes",
+                body: "A global factor from the geometric mean of actual/estimated ratios, per-component factors shrunk toward it, and a shared risk σ — all derived from the project history.",
+              },
+            ],
+            link: "https://github.com/aaguerram/calculadora-estimacion",
+            linkLabel: "View on GitHub",
+          },
+          {
+            name: "Financial Observability Pipeline on Kafka",
+            status: "Public repository",
+            statusClass: "public",
+            meta: "C# · .NET 10 · Kafka · Aug 2026",
+            summary:
+              "OpenTelemetry traces, metrics and logs are encrypted at the payload, streamed through Kafka, masked according to the originating service's OpenAPI contract, risk-scored and bulk-persisted — four independent .NET 10 services, end to end.",
+            tags: [".NET 10 / C# 14", "Native AOT", "Kafka (Strimzi · KRaft)", "OpenTelemetry", "AES-256-GCM", "Protobuf", "Polly", "Cosmos DB"],
+            notes: [
+              {
+                label: "The broker never sees plaintext",
+                body: "Payloads travel in a self-contained Protobuf envelope encrypted with AES-256-GCM before they touch Kafka; keys come from a Vault behind a one-hour RAM cache.",
+              },
+              {
+                label: "Masking by contract",
+                body: "x-log-data-protection rules in each service's OpenAPI spec decide what gets hashed, truncated or erased — zero heap allocations, and a dedicated DLQ at every stage.",
+              },
+            ],
+            link: "https://github.com/aaguerram/log_procesor_otel",
             linkLabel: "View on GitHub",
           },
           {
@@ -212,10 +305,11 @@
         kicker: "Grouped the way I actually reach for it.",
         groups: [
           { title: "Architecture & Patterns", chips: ["Microservices", "DDD", "Hexagonal / Clean Architecture", "CQRS", "Event Sourcing", "Saga", "EDA", "BPMN", "C4 Model", "ADRs"] },
-          { title: "Agentic AI", chips: ["LangGraph", "LangChain", "RAG", "Vector Search", "Tool Calling", "MCP", "Prompt Engineering", "Human-in-the-loop"] },
+          { title: "Agentic AI", chips: ["LangGraph", "LangChain", "LangSmith", "Amazon Bedrock AgentCore", "RAG", "Vector Search", "Multi-LLM Failover", "Tool Calling", "MCP", "Prompt Engineering", "Human-in-the-loop"] },
+          { title: "Identity & APIs", chips: ["Keycloak", "OAuth 2.0 / OIDC", "RFC 7523 / RFC 8693", "WSO2 API Manager", "BIAN", "ISO 20022"] },
           { title: "Cloud & Infra", chips: ["AWS", "Azure", "Terraform", "Terragrunt", "Docker", "Kubernetes / OpenShift", "GitHub Actions", "CI/CD"] },
-          { title: "Languages & APIs", chips: ["Python", "Java", "Spring Boot", "C# / .NET", "JavaScript / TypeScript", "REST", "GraphQL", "gRPC"] },
-          { title: "Data & Messaging", chips: ["Kafka", "Redis", "PostgreSQL", "Azure Cosmos DB", "Elasticsearch", "Outbox Pattern", "CDC"] },
+          { title: "Languages & APIs", chips: ["Python", "Java", "Spring Boot", "C# / .NET (Native AOT)", "JavaScript / TypeScript", "React / Next.js", "REST / OpenAPI", "GraphQL", "gRPC"] },
+          { title: "Data & Messaging", chips: ["Kafka", "Redis", "PostgreSQL", "PostgREST", "Azure Cosmos DB", "Elasticsearch", "OpenTelemetry", "Outbox Pattern", "CDC"] },
           { title: "Consulting", chips: ["Technical Pre-Sales", "Needs Discovery", "Solution Proposals", "Stakeholder Advisory", "Public Speaking"] },
         ],
       },
@@ -241,6 +335,7 @@
         experience: "10+ años en plataformas de banca y fintech",
         ctaPrimary: "Ver sistemas destacados",
         ctaCv: "Descargar CV",
+        ctaGithub: "GitHub",
         cvFile: "assets/Angel_Guerra_CV_ES.pdf",
       },
       signals: {
@@ -251,7 +346,7 @@
           {
             title: "Ingeniería de IA Agéntica",
             body: "Agentes LLM que llaman herramientas, mantienen memoria y saben cuándo detenerse — no chatbots. Orquestación con LangGraph, RAG sobre bases vectoriales, integraciones MCP, guardrails human-in-the-loop.",
-            proof: "Prueba → Luna, agente de ventas omnicanal en Bedrock AgentCore",
+            proof: "Prueba → un pipeline LangGraph verificable que mapea historias de usuario a BIAN, y Luna, agente de ventas omnicanal en Bedrock AgentCore",
           },
           {
             title: "Arquitectura de Soluciones para Industrias Reguladas",
@@ -293,12 +388,41 @@
       projects: {
         heading: "Sistemas seleccionados",
         kicker:
-          "Tres sistemas, tres restricciones distintas: un agente que debe sonar humano, un pipeline que debe desaparecer después de correr, e infraestructura que debe sobrevivir a un desastre con un solo comando.",
+          "Primero la IA: dos sistemas agénticos donde el LLM está acotado por código determinista. Luego mis repositorios públicos más recientes y dos proyectos privados que no se pueden enlazar.",
+        aiBadge: "IA agéntica",
         items: [
+          {
+            name: "Mapeador de Contratos BIAN — Pipeline LLM Verificable",
+            status: "Repositorio público",
+            statusClass: "public",
+            ai: true,
+            meta: "Python · LangGraph · sep 2026",
+            summary:
+              "Mapea un lote de Historias de Usuario a los Service Domains BIAN que deben ser sus dueños — con rol contractual, confianza, operaciones oficiales y justificación escrita — para que los contratos de API nazcan del estándar bancario y no de una suposición.",
+            tags: ["LangGraph", "LangChain", "Failover multi-LLM", "Groq · Gemini · OpenRouter", "RAG (léxico / vectorial)", "LangSmith", "Arquitectura hexagonal", "Python"],
+            notes: [
+              {
+                label: "Evaluación aislada",
+                body: "Un map-reduce en LangGraph sobre las historias, con un subgrafo de 10 pasos por HU (6 nodos LLM, 4 deterministas). Cada Service Domain candidato recibe su propia llamada LLM contra un paquete de evidencia cerrado — sin contaminación cruzada entre candidatos.",
+              },
+              {
+                label: "Adversarial, pero en un solo sentido",
+                body: "Un revisor adversarial independiente vuelve a contrastar el ownership; sus hallazgos solo pueden degradar un Service Domain, nunca promoverlo. El modelo solo puede responder con nombres del catálogo de 341 dominios.",
+              },
+              {
+                label: "Nunca un falso “no”",
+                body: "La evidencia es cache-first sobre BIAN Release 14. Si la red falla, la decisión queda como BIAN_EVIDENCE_UNAVAILABLE — no como un “no aplica” silencioso.",
+              },
+            ],
+            link: "https://github.com/aaguerram/generacion_contrato_bian",
+            linkLabel: "Ver en GitHub",
+          },
           {
             name: "Luna — Agente de Ventas Omnicanal",
             status: "Repositorio público",
             statusClass: "public",
+            ai: true,
+            meta: "Python · Bedrock AgentCore · jul 2026",
             summary:
               "Un asistente agéntico que responde preguntas de venta de skincare dentro de un contact center real Telegram ↔ Amazon Connect, y deriva a un asesor humano en el momento en que se sale de su alcance.",
             tags: ["LangGraph", "Amazon Bedrock AgentCore", "AWS Lambda", "Amazon Connect", "DynamoDB", "RAG / Firestore", "Python"],
@@ -313,6 +437,69 @@
               },
             ],
             link: "https://github.com/aaguerram/omnicanal-demo-v1",
+            linkLabel: "Ver en GitHub",
+          },
+          {
+            name: "Identidad M2M entre Reinos para APIs Bancarias",
+            status: "Repositorio público",
+            statusClass: "public",
+            meta: "TypeScript · Keycloak · WSO2 · sep 2026",
+            summary:
+              "Un banco de pruebas de autenticación máquina a máquina entre reinos de Keycloak detrás de WSO2 API Manager: una aplicación de canal tiene un solo secreto en su reino y aun así consume APIs BIAN / ISO 20022 cuyos reinos dueños deciden qué puede hacer.",
+            tags: ["Keycloak 26", "Client assertions RFC 7523", "WSO2 API Manager", "Next.js", "TypeScript", "OpenAPI 3.1", "Docker Compose"],
+            notes: [
+              {
+                label: "Autenticación ≠ autorización",
+                body: "El reino del canal dice quién eres, el reino dueño de la API dice qué puedes hacer y el gateway lo aplica. Cada producto de WSO2 solo acepta tokens de su propio reino.",
+              },
+              {
+                label: "Probado para fallar",
+                body: "Pruebas automatizadas demuestran los negativos: assertions reutilizadas, tokens con varias audiencias, Token Exchange directo entre reinos y tokens del canal presentados en el gateway son rechazados.",
+              },
+            ],
+            link: "https://github.com/aaguerram/keycloak-cross-realm-token-exchange",
+            linkLabel: "Ver en GitHub",
+          },
+          {
+            name: "Calculadora de Estimación de Esfuerzo",
+            status: "Repositorio público",
+            statusClass: "public",
+            meta: "TypeScript · React · PostgREST · sep 2026",
+            summary:
+              "Se carga el alcance de un proyecto — componentes, features, integraciones y drivers — y devuelve una banda de esfuerzo P50/P80/P90, un plan de equipo óptimo, la duración y las alertas del modelo. Los coeficientes se calibran contra proyectos cerrados, no se inventan.",
+            tags: ["React 19", "TypeScript", "Feature-Sliced Design", "IBM Carbon", "PostgREST", "PostgreSQL", "Vitest", "Playwright"],
+            notes: [
+              {
+                label: "Sin backend que mantener",
+                body: "PostgREST genera la API directamente desde el esquema de Postgres; las reglas viven en una capa de modelo pura y determinista cubierta por 242 tests unitarios.",
+              },
+              {
+                label: "Calibración, no intuición",
+                body: "Un factor global por media geométrica de los ratios real/estimado, factores por componente encogidos hacia él y un σ de riesgo común — todo derivado del histórico.",
+              },
+            ],
+            link: "https://github.com/aaguerram/calculadora-estimacion",
+            linkLabel: "Ver en GitHub",
+          },
+          {
+            name: "Pipeline de Observabilidad Financiera sobre Kafka",
+            status: "Repositorio público",
+            statusClass: "public",
+            meta: "C# · .NET 10 · Kafka · ago 2026",
+            summary:
+              "Trazas, métricas y logs de OpenTelemetry se cifran a nivel de carga útil, viajan por Kafka, se enmascaran según el contrato OpenAPI del servicio de origen, se puntúan por riesgo y se persisten de forma masiva — cuatro servicios .NET 10 independientes, de punta a punta.",
+            tags: [".NET 10 / C# 14", "Native AOT", "Kafka (Strimzi · KRaft)", "OpenTelemetry", "AES-256-GCM", "Protobuf", "Polly", "Cosmos DB"],
+            notes: [
+              {
+                label: "El broker nunca ve texto en claro",
+                body: "La carga viaja en un sobre Protobuf autosuficiente cifrado con AES-256-GCM antes de tocar Kafka; las claves vienen de un Vault con caché en RAM de una hora.",
+              },
+              {
+                label: "Enmascarado por contrato",
+                body: "Las reglas x-log-data-protection del OpenAPI de cada servicio deciden qué se hashea, trunca o borra — cero asignaciones en el heap y una DLQ dedicada en cada etapa.",
+              },
+            ],
+            link: "https://github.com/aaguerram/log_procesor_otel",
             linkLabel: "Ver en GitHub",
           },
           {
@@ -439,10 +626,11 @@
         kicker: "Agrupado tal como lo uso en la práctica.",
         groups: [
           { title: "Arquitectura y Patrones", chips: ["Microservicios", "DDD", "Arquitectura Hexagonal / Limpia", "CQRS", "Event Sourcing", "Saga", "EDA", "BPMN", "Modelo C4", "ADRs"] },
-          { title: "IA Agéntica", chips: ["LangGraph", "LangChain", "RAG", "Búsqueda Vectorial", "Tool Calling", "MCP", "Ingeniería de Prompts", "Human-in-the-loop"] },
+          { title: "IA Agéntica", chips: ["LangGraph", "LangChain", "LangSmith", "Amazon Bedrock AgentCore", "RAG", "Búsqueda Vectorial", "Failover Multi-LLM", "Tool Calling", "MCP", "Ingeniería de Prompts", "Human-in-the-loop"] },
+          { title: "Identidad y APIs", chips: ["Keycloak", "OAuth 2.0 / OIDC", "RFC 7523 / RFC 8693", "WSO2 API Manager", "BIAN", "ISO 20022"] },
           { title: "Cloud e Infraestructura", chips: ["AWS", "Azure", "Terraform", "Terragrunt", "Docker", "Kubernetes / OpenShift", "GitHub Actions", "CI/CD"] },
-          { title: "Lenguajes y APIs", chips: ["Python", "Java", "Spring Boot", "C# / .NET", "JavaScript / TypeScript", "REST", "GraphQL", "gRPC"] },
-          { title: "Datos y Mensajería", chips: ["Kafka", "Redis", "PostgreSQL", "Azure Cosmos DB", "Elasticsearch", "Patrón Outbox", "CDC"] },
+          { title: "Lenguajes y APIs", chips: ["Python", "Java", "Spring Boot", "C# / .NET (Native AOT)", "JavaScript / TypeScript", "React / Next.js", "REST / OpenAPI", "GraphQL", "gRPC"] },
+          { title: "Datos y Mensajería", chips: ["Kafka", "Redis", "PostgreSQL", "PostgREST", "Azure Cosmos DB", "Elasticsearch", "OpenTelemetry", "Patrón Outbox", "CDC"] },
           { title: "Consultoría", chips: ["Preventa Técnica", "Descubrimiento de Necesidades", "Propuestas de Solución", "Asesoría a Stakeholders", "Oratoria"] },
         ],
       },
@@ -472,6 +660,19 @@
       '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="5" width="12" height="8" rx="1.2"/><path d="M6 5V3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5V5"/></svg>',
   };
 
+  /* ---------------- storage (can throw in private mode / blocked site data) ---------------- */
+  const store = {
+    get(k) {
+      try { return localStorage.getItem(k); } catch { return null; }
+    },
+    set(k, v) {
+      try { localStorage.setItem(k, v); } catch { /* preference just won't persist */ }
+    },
+    remove(k) {
+      try { localStorage.removeItem(k); } catch { /* ignore */ }
+    },
+  };
+
   /* ---------------- render ---------------- */
   const root = document.documentElement;
 
@@ -495,6 +696,9 @@
     const cv = document.getElementById("hero-cta-cv");
     cv.textContent = t.hero.ctaCv;
     cv.setAttribute("href", t.hero.cvFile);
+    const gh = document.getElementById("hero-cta-github");
+    gh.setAttribute("href", GITHUB);
+    gh.innerHTML = `${t.hero.ctaGithub} ${ICONS.external}`;
   }
 
   function renderSignals(t) {
@@ -521,12 +725,16 @@
     list.innerHTML = t.projects.items
       .map(
         (p) => `
-      <article class="project-card reveal">
+      <article class="project-card reveal${p.ai ? " is-ai" : ""}">
         <div class="project-main">
           <div class="project-head">
             <h3>${p.name}</h3>
-            <span class="project-status ${p.statusClass}">${p.status}</span>
+            <div class="project-badges">
+              ${p.ai ? `<span class="project-status ai">${t.projects.aiBadge}</span>` : ""}
+              <span class="project-status ${p.statusClass}">${p.status}</span>
+            </div>
           </div>
+          ${p.meta ? `<div class="project-meta">${p.meta}</div>` : ""}
           <p class="project-summary">${p.summary}</p>
           <div class="tags project-tags">${p.tags.map(chip).join("")}</div>
           ${
@@ -622,12 +830,12 @@
   }
 
   function setLang(lang) {
-    localStorage.setItem("aag-lang", lang);
+    store.set("aag-lang", lang);
     render(lang);
   }
 
   function initLang() {
-    const stored = localStorage.getItem("aag-lang");
+    const stored = store.get("aag-lang");
     if (stored && CONTENT[stored]) return stored;
     return navigator.language && navigator.language.toLowerCase().startsWith("es") ? "es" : "en";
   }
@@ -636,16 +844,16 @@
   function setTheme(theme) {
     if (theme) {
       root.setAttribute("data-theme", theme);
-      localStorage.setItem("aag-theme", theme);
+      store.set("aag-theme", theme);
     } else {
       root.removeAttribute("data-theme");
-      localStorage.removeItem("aag-theme");
+      store.remove("aag-theme");
     }
     updateThemeIcon();
   }
 
   function currentTheme() {
-    const stored = localStorage.getItem("aag-theme");
+    const stored = store.get("aag-theme");
     if (stored) return stored;
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
@@ -780,7 +988,7 @@
 
   /* ---------------- wire up controls ---------------- */
   document.addEventListener("DOMContentLoaded", () => {
-    setTheme(localStorage.getItem("aag-theme") || null);
+    setTheme(store.get("aag-theme") || null);
     document.getElementById("theme-toggle").addEventListener("click", () => {
       setTheme(currentTheme() === "dark" ? "light" : "dark");
     });
@@ -790,7 +998,7 @@
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", () => {
-        if (!localStorage.getItem("aag-theme")) updateThemeIcon();
+        if (!store.get("aag-theme")) updateThemeIcon();
       });
 
     render(initLang());
